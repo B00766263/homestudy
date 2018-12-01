@@ -27,6 +27,19 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
+
+        final VerticalLayout layout = new VerticalLayout();
+        final TextField name = new TextField();
+        name.setCaption("Type your name, please:");
+
+        Button button = new Button("Click Here ");
+        button.addClickListener(e -> {
+            layout.addComponent(new Label("Thanks " + name.getValue() 
+                    + ", it works!"));
+        });
+        
+        layout.addComponents(name, button);
+
         Connection connection = null;
 
         String connectionString = "jdbc:sqlserver://oxanatest.database.windows.net:1433;" + 
@@ -38,7 +51,6 @@ public class MyUI extends UI {
 			  "hostNameInCertificate=*.database.windows.net;" +
 			  "loginTimeout=30;";
 
-        final VerticalLayout layout = new VerticalLayout();
  
         try 
 {
@@ -78,21 +90,9 @@ catch (Exception e)
 	layout.addComponent(new Label(e.getMessage()));
 }
 
-setContent(layout);}
-        /*final TextField name = new TextField();
-        name.setCaption("Type your name, please:");
-
-        Button button = new Button("Click Here ");
-        button.addClickListener(e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
-        });
-        
-        layout.addComponents(name, button);
-    
-        setContent(layout);
+setContent(layout);
     }
-*/
+
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
